@@ -1,22 +1,21 @@
-const points = document.querySelectorAll(".map__point");
+const pointsParent = document.querySelector(".map");
 
-points.forEach((point) => {
-  point.addEventListener("click", (e) => {
-    const currentElement = e.currentTarget;
+const showPoint = (point) => {
+  if (point.classList.contains("map__point")) {
+    point.classList.toggle("active");
+    const pointIcon = point.querySelector(".map__point-icon");
+    point.classList.contains("active")
+      ? (pointIcon.textContent = "-")
+      : (pointIcon.textContent = "+");
+  }
+};
 
-    points.forEach((point) => {
-      if (point !== currentElement) {
-        const pointIcon = point.querySelector(".map__point-icon");
-        point.classList.remove("active");
-        pointIcon.textContent = "+";
-      }
-    });
+pointsParent.addEventListener("click", (e) => {
+  const point = e.target.closest(".map__point");
 
-    const pointIcon = currentElement.querySelector(".map__point-icon");
-    currentElement.classList.contains("active")
-      ? (pointIcon.textContent = "+")
-      : (pointIcon.textContent = "-");
+  if (!point) return;
 
-    currentElement.classList.toggle("active");
-  });
+  if (!pointsParent.contains(point)) return;
+
+  showPoint(point);
 });
